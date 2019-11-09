@@ -16,4 +16,10 @@
         <item>升 l</item>
         <item>毫升 ml</item>
     </string-array>
+    <string-array name="radix">
+        <item>二进制 B</item>
+        <item>八进制 O</item>
+        <item>十进制 D</item>
+        <item>十六进制 H</item>
+    </string-array>
 </resources>

@@ -122,7 +122,6 @@ public class count_mainActivity extends AppCompatActivity implements View.OnClic
             case R.id.bt_sin: op.append("sin");break;
             case R.id.bt_AC://删除本次运算的数据
                 op.setText("");
-
                 break;
             case R.id.bt_CE://不为空时删除一个符号
                 String str1=op.getText().toString();

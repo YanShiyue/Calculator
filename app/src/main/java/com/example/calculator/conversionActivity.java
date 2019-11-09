@@ -43,6 +43,14 @@ public class conversionActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        Button toRad=(Button) findViewById(R.id.bt_radix);
+        toRad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(conversionActivity.this,radixActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     //菜单(help,exit)
     @Override
