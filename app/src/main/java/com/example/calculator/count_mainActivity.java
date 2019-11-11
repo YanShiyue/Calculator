@@ -17,7 +17,8 @@ import java.util.Stack;
 
 public class count_mainActivity extends AppCompatActivity implements View.OnClickListener{
 
-
+    int len1=0;
+    int len2=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +122,7 @@ public class count_mainActivity extends AppCompatActivity implements View.OnClic
             case R.id.bt_rb: op.append(")");break;
             case R.id.bt_sin: op.append("sin");break;
             case R.id.bt_AC://删除本次运算的数据
-                op.setText("");
+                op.setText(op.getText().toString().substring(0,len2));
                 break;
             case R.id.bt_CE://不为空时删除一个符号
                 String str1=op.getText().toString();
@@ -141,7 +142,7 @@ public class count_mainActivity extends AppCompatActivity implements View.OnClic
             case R.id.bt_point: op.append(".");break;
             case R.id.bt_eq:
                 op.append("=");//进行运算
-                String str=op.getText().toString();
+                String str=op.getText().toString().substring(len2);
             {//算术表达式求值
                 Stack<String> stack1=new Stack<>();//运算符栈
                 Stack<Double> stack2=new Stack<>();//运算数栈
@@ -169,6 +170,7 @@ public class count_mainActivity extends AppCompatActivity implements View.OnClic
                     }
                     //求结果
                     if(str.charAt(i)=='='){
+                        len1=str.length();
                         while(!stack1.peek().equals("#")){
                             if(stack1.peek().length()==1){
                                 double op2 = stack2.peek();
@@ -224,7 +226,8 @@ public class count_mainActivity extends AppCompatActivity implements View.OnClic
                                 stack1.pop();//操作符出栈
                             }
                         }
-                        op.append("\n"+String.format("%.2f", stack2.peek()));
+                        op.append("\n"+String.format("%.2f", stack2.peek())+"\n");
+                        len2=op.getText().toString().length();
                         break;
                     }
                     //操作符压栈
@@ -357,7 +360,6 @@ public class count_mainActivity extends AppCompatActivity implements View.OnClic
                                     stack2.pop();//操作数出栈
                                     double op1 = stack2.peek();
                                     stack2.pop();//操作数出栈
-                                    if (str.charAt(i) == '+' || str.charAt(i) == '-') {
                                         switch (stack1.peek()) {
                                             case "+":
                                                 stack2.push(op1 + op2);
@@ -382,49 +384,6 @@ public class count_mainActivity extends AppCompatActivity implements View.OnClic
                                             default:
                                                 break;
                                         }
-                                    }
-                                    if (str.charAt(i) == '*' || str.charAt(i) == '/') {
-                                        if((stack1.peek() == "+" )||( stack1.peek() == "-" )|| (stack1.peek() == "#")){
-                                            stack1.push(String.valueOf(str.charAt(i)));
-                                            //op.append("\n"+stack2.peek());
-                                            //op.append("\n" + stack1.peek());
-                                            i++;
-                                            op.append("error");
-                                            break;
-                                        }
-                                        switch (stack1.peek()) {
-                                            case "*":
-                                                stack2.push(op1 * op2);
-                                                break;
-                                            case "/":
-                                                stack2.push(op1 / op2);
-                                                break;
-                                            case "^":
-                                                stack2.push(Math.pow(op1, op2));
-                                                break;
-                                            case "%":
-                                                int _op1 = (int) op1;
-                                                int _op2 = (int) op2;
-                                                stack2.push((double) _op1 - (_op1 / _op2) * _op2);
-                                                break;
-                                            default:
-                                                break;
-                                        }
-                                    }
-                                    if (str.charAt(i) == '^' || str.charAt(i) == '%') {
-                                        switch (stack1.peek()) {
-                                            case "^":
-                                                stack2.push(Math.pow(op1, op2));
-                                                break;
-                                            case "%":
-                                                int _op1 = (int) op1;
-                                                int _op2 = (int) op2;
-                                                stack2.push((double) _op1 - (_op1 / _op2) * _op2);
-                                                break;
-                                            default:
-                                                break;
-                                        }
-                                    }
                                     stack1.pop();//运算符出栈
                                 }
                             }
