@@ -98,8 +98,6 @@ public class count_mainActivity extends AppCompatActivity implements View.OnClic
             }
         });
     }
-
-
     //监听器-实现接口方式(Button)
     @Override
     public void onClick(View v) {
@@ -143,255 +141,9 @@ public class count_mainActivity extends AppCompatActivity implements View.OnClic
             case R.id.bt_eq:
                 op.append("=");//进行运算
                 String str=op.getText().toString().substring(len2);
-            {//算术表达式求值
-                Stack<String> stack1=new Stack<>();//运算符栈
-                Stack<Double> stack2=new Stack<>();//运算数栈
-                int i=0;
-                stack1.push("#");
-                while(str.charAt(i)!='='||!stack1.peek().equals("#")){
-                    //操作数压栈
-                    if(str.charAt(i)>='0'&&str.charAt(i)<='9'){
-                        double value=0.0;
-                        int flag=1;//flag=1整数部分;flag<0小数点后flag位
-                        while((str.charAt(i)>='0'&&str.charAt(i)<='9')||str.charAt(i)=='.'){
-                            if(str.charAt(i)=='.'){
-                                flag=-1;
-                            }
-                            else if(flag==1)
-                                value=value*10+str.charAt(i)-'0';
-                            else{
-                                value+=Math.pow(10,flag)* (str.charAt(i)-'0');
-                                flag--;
-                            }
-                            i++;
-                        }
-                        stack2.push(value);
-                        //op.append("\n"+stack2.peek());
-                    }
-                    //求结果
-                    if(str.charAt(i)=='='){
-                        len1=str.length();
-                        while(!stack1.peek().equals("#")){
-                            if(stack1.peek().length()==1){
-                                double op2 = stack2.peek();
-                                stack2.pop();//操作数出栈
-                                double op1 = stack2.peek();
-                                stack2.pop();//操作数出栈
-                                switch (stack1.peek()) {
-                                    case "+":
-                                        stack2.push(op1 + op2);
-                                        break;
-                                    case "-":
-                                        stack2.push(op1 - op2);
-                                        break;
-                                    case "*":
-                                        stack2.push(op1 * op2);
-                                        break;
-                                    case "/":
-                                        stack2.push(op1 / op2);
-                                        break;
-                                    case "^":
-                                        stack2.push(Math.pow(op1, op2));
-                                        break;
-                                    case "%":
-                                        int _op1 = (int) op1;
-                                        int _op2 = (int) op2;
-                                        stack2.push((double) _op1 - (_op1 / _op2) * _op2);
-                                        break;
-                                    default:
-                                        break;
-                                }
-                                stack1.pop();//运算符出栈
-                            }
-                            else{
-                                double op1 = stack2.peek();
-                                stack2.pop();//操作数出栈
-                                switch (stack1.peek()) {
-                                    case "sin":
-                                        stack2.push(Math.sin(op1));
-                                        break;
-                                    case "cos":
-                                        stack2.push(Math.cos(op1));
-                                        break;
-                                    case "tan":
-                                        stack2.push(Math.tan(op1));
-                                        break;
-                                    case "lg":
-                                        stack2.push(Math.log10(op1));
-                                        break;
-                                    case "ln":
-                                        stack2.push(Math.log(op1));
-                                        break;
-                                }
-                                stack1.pop();//操作符出栈
-                            }
-                        }
-                        op.append("\n"+String.format("%.2f", stack2.peek())+"\n");
-                        len2=op.getText().toString().length();
-                        break;
-                    }
-                    //操作符压栈
-                    {
-                        //sin.cos,tan,lg,ln,（，直接压栈
-                        if (str.charAt(i) == 's' || str.charAt(i) == 'c' || str.charAt(i) == 't') {//sin,cos,tan直接压栈
-                            stack1.push(str.substring(i, i + 3));
-                            i += 3;
-                        }
-                        if (str.charAt(i) == 'l') {//lg,ln直接入栈
-                            stack1.push(str.substring(i, i + 2));
-                            i += 2;
-                        }
-                        if (str.charAt(i) == '(') {//左括号直接压栈
-                            stack1.push("(");
-                            i += 1;
-                        }
-                        //），出栈直到左括号出栈
-                        if (str.charAt(i) == ')') {
-                            while(!stack1.peek().equals("(")){
-                                if(stack1.peek().length()==1){
-                                    double op2 = stack2.peek();
-                                    stack2.pop();//操作数出栈
-                                    double op1 = stack2.peek();
-                                    stack2.pop();//操作数出栈
-                                    switch (stack1.peek()) {
-                                        case "+":
-                                            stack2.push(op1 + op2);
-                                            break;
-                                        case "-":
-                                            stack2.push(op1 - op2);
-                                            break;
-                                        case "*":
-                                            stack2.push(op1 * op2);
-                                            break;
-                                        case "/":
-                                            stack2.push(op1 / op2);
-                                            break;
-                                        case "^":
-                                            stack2.push(Math.pow(op1, op2));
-                                            break;
-                                        case "%":
-                                            int _op1 = (int) op1;
-                                            int _op2 = (int) op2;
-                                            stack2.push((double) _op1 - (_op1 / _op2) * _op2);
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                    stack1.pop();//运算符出栈
-                                }
-                                else{
-                                    double op1 = stack2.peek();
-                                    stack2.pop();//操作数出栈
-                                    switch (stack1.peek()) {
-                                        case "sin":
-                                            stack2.push(Math.sin(op1));
-                                            break;
-                                        case "cos":
-                                            stack2.push(Math.cos(op1));
-                                            break;
-                                        case "tan":
-                                            stack2.push(Math.tan(op1));
-                                            break;
-                                        case "lg":
-                                            stack2.push(Math.log10(op1));
-                                            break;
-                                        case "ln":
-                                            stack2.push(Math.log(op1));
-                                            break;
-                                    }
-                                    stack1.pop();//操作符出栈
-                                }
-                            }
-                            stack1.pop();
-                            i++;
-                        }
-                        //+,-,*,/,^,%，先于stack1栈顶比较优先级，大再入栈
-                        if (str.charAt(i) == '+' || str.charAt(i) == '-' || str.charAt(i) == '*' || str.charAt(i) == '/' || str.charAt(i) == '^' || str.charAt(i) == '%') {//二元运算
-                            while (1 == 1) {
-                                //运算符压栈（优先级大于栈顶）
-                                if (str.charAt(i) == '+' || str.charAt(i) == '-') {
-                                    if (stack1.peek().equals("#")||stack1.peek().equals("(")) {
-                                        stack1.push(String.valueOf(str.charAt(i)));
-                                        i++;
-                                        break;
-                                    }
-                                }
-                                if (str.charAt(i) == '*' || str.charAt(i) == '/'){
-                                    if(stack1.peek().equals("+") ||stack1.peek().equals("-")|| stack1.peek().equals("#") ||stack1.peek().equals("(")){
-                                        stack1.push(String.valueOf(str.charAt(i)));
-                                        i++;
-                                        break;
-                                    }
-                                }
-                                if (str.charAt(i) == '^' || str.charAt(i) == '%') {
-                                    if (stack1.peek().equals("+")|| stack1.peek().equals("-")|| stack1.peek().equals("*") || stack1.peek().equals("/")|| stack1.peek().equals("#")||stack1.peek().equals("(")) {
-                                        stack1.push(String.valueOf(str.charAt(i)));
-                                        i++;
-                                        break;
-                                    }
-                                }
-                                //sin,cos,tan,ln,lg出栈运算(一元运算)
-                                if (stack1.peek().length() != 1&&str.charAt(i)!='=') {
-                                    double op1 = stack2.peek();
-                                    stack2.pop();//操作数出栈
-                                    switch (stack1.peek()) {
-                                        case "sin":
-                                            stack2.push(Math.sin(op1));
-                                            break;
-                                        case "cos":
-                                            stack2.push(Math.cos(op1));
-                                            break;
-                                        case "tan":
-                                            stack2.push(Math.tan(op1));
-                                            break;
-                                        case "lg":
-                                            stack2.push(Math.log10(op1));
-                                            break;
-                                        case "ln":
-                                            stack2.push(Math.log(op1));
-                                            break;
-                                    }
-                                    stack1.pop();//操作符出栈
-                                    continue;//结束本次循环
-                                }
-                                //二元运算符出栈（优先级小于栈顶元素运算符）
-                                if (stack1.peek().length() == 1&&str.charAt(i)!='=') {
-                                    double op2 = stack2.peek();
-                                    stack2.pop();//操作数出栈
-                                    double op1 = stack2.peek();
-                                    stack2.pop();//操作数出栈
-                                        switch (stack1.peek()) {
-                                            case "+":
-                                                stack2.push(op1 + op2);
-                                                break;
-                                            case "-":
-                                                stack2.push(op1 - op2);
-                                                break;
-                                            case "*":
-                                                stack2.push(op1 * op2);
-                                                break;
-                                            case "/":
-                                                stack2.push(op1 / op2);
-                                                break;
-                                            case "^":
-                                                stack2.push(Math.pow(op1, op2));
-                                                break;
-                                            case "%":
-                                                int _op1 = (int) op1;
-                                                int _op2 = (int) op2;
-                                                stack2.push((double) _op1 - (_op1 / _op2) * _op2);
-                                                break;
-                                            default:
-                                                break;
-                                        }
-                                    stack1.pop();//运算符出栈
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            break;
+                op.append("\n"+String.format("%.2f", operate(str))+"\n");
+                len2=op.getText().toString().length();
+                break;
             default:
                 break;
         }
@@ -415,5 +167,183 @@ public class count_mainActivity extends AppCompatActivity implements View.OnClic
                 break;
         }
         return true;
+    }
+
+    //运算
+    public double operate(String str) {
+        Stack<String> stack1 = new Stack<>();//运算符栈
+        Stack<Double> stack2 = new Stack<>();//运算数栈
+        int i = 0;
+        stack1.push("#");
+        while (str.charAt(i) != '=' || !stack1.peek().equals("#")) {
+            //操作数压栈
+            if (str.charAt(i) >= '0' && str.charAt(i) <= '9') {
+                double value = 0.0;
+                int flag = 1;//flag=1整数部分;flag<0小数点后flag位
+                while ((str.charAt(i) >= '0' && str.charAt(i) <= '9') || str.charAt(i) == '.') {
+                    if (str.charAt(i) == '.') {
+                        flag = -1;
+                    } else if (flag == 1)
+                        value = value * 10 + str.charAt(i) - '0';
+                    else {
+                        value += Math.pow(10, flag) * (str.charAt(i) - '0');
+                        flag--;
+                    }
+                    i++;
+                }
+                stack2.push(value);
+                //op.append("\n"+stack2.peek());
+            }
+            //求结果
+            if (str.charAt(i) == '=') {
+                len1 = str.length();
+                while (!stack1.peek().equals("#")) {
+                    if (stack1.peek().length() == 1) {
+                        double op2 = stack2.peek();
+                        stack2.pop();//操作数出栈
+                        double op1 = stack2.peek();
+                        stack2.pop();//操作数出栈
+                        stack2.push(Binary_Operation(stack1.peek(), op1, op2));
+                        stack1.pop();//运算符出栈
+                    } else {
+                        double op1 = stack2.peek();
+                        stack2.pop();//操作数出栈
+                        stack2.push(Unary_Operation(stack1.peek(), op1));
+                        stack1.pop();//操作符出栈
+                    }
+                }
+                break;
+            }
+            //操作符压栈
+            {
+                //sin.cos,tan,lg,ln,（，直接压栈
+                if (str.charAt(i) == 's' || str.charAt(i) == 'c' || str.charAt(i) == 't') {//sin,cos,tan直接压栈
+                    stack1.push(str.substring(i, i + 3));
+                    i += 3;
+                }
+                if (str.charAt(i) == 'l') {//lg,ln直接入栈
+                    stack1.push(str.substring(i, i + 2));
+                    i += 2;
+                }
+                if (str.charAt(i) == '(') {//左括号直接压栈
+                    stack1.push("(");
+                    i += 1;
+                }
+                //），出栈直到左括号出栈
+                if (str.charAt(i) == ')') {
+                    while (!stack1.peek().equals("(")) {
+                        if (stack1.peek().length() == 1) {
+                            double op2 = stack2.peek();
+                            stack2.pop();//操作数出栈
+                            double op1 = stack2.peek();
+                            stack2.pop();//操作数出栈
+                            stack2.push(Binary_Operation(stack1.peek(), op1, op2));
+                            stack1.pop();//运算符出栈
+                        } else {
+                            double op1 = stack2.peek();
+                            stack2.pop();//操作数出栈
+                            stack2.push(Unary_Operation(stack1.peek(), op1));
+                            stack1.pop();//操作符出栈
+                        }
+                    }
+                    stack1.pop();
+                    i++;
+                }
+                //+,-,*,/,^,%，先于stack1栈顶比较优先级，大再入栈
+                if (str.charAt(i) == '+' || str.charAt(i) == '-' || str.charAt(i) == '*' || str.charAt(i) == '/' || str.charAt(i) == '^' || str.charAt(i) == '%') {//二元运算
+                    while (1 == 1) {
+                        //运算符压栈（优先级大于栈顶）
+                        if (str.charAt(i) == '+' || str.charAt(i) == '-') {
+                            if (stack1.peek().equals("#") || stack1.peek().equals("(")) {
+                                stack1.push(String.valueOf(str.charAt(i)));
+                                i++;
+                                break;
+                            }
+                        }
+                        if (str.charAt(i) == '*' || str.charAt(i) == '/') {
+                            if (stack1.peek().equals("+") || stack1.peek().equals("-") || stack1.peek().equals("#") || stack1.peek().equals("(")) {
+                                stack1.push(String.valueOf(str.charAt(i)));
+                                i++;
+                                break;
+                            }
+                        }
+                        if (str.charAt(i) == '^' || str.charAt(i) == '%') {
+                            if (stack1.peek().equals("+") || stack1.peek().equals("-") || stack1.peek().equals("*") || stack1.peek().equals("/") || stack1.peek().equals("#") || stack1.peek().equals("(")) {
+                                stack1.push(String.valueOf(str.charAt(i)));
+                                i++;
+                                break;
+                            }
+                        }
+                        //sin,cos,tan,ln,lg出栈运算(一元运算)
+                        if (stack1.peek().length() != 1 && str.charAt(i) != '=') {
+                            double op1 = stack2.peek();
+                            stack2.pop();//操作数出栈
+                            stack2.push(Unary_Operation(stack1.peek(), op1));
+                            stack1.pop();//操作符出栈
+                            continue;//结束本次循环
+                        }
+                        //二元运算符出栈（优先级小于栈顶元素运算符）
+                        if (stack1.peek().length() == 1 && str.charAt(i) != '=') {
+                            double op2 = stack2.peek();
+                            stack2.pop();//操作数出栈
+                            double op1 = stack2.peek();
+                            stack2.pop();//操作数出栈
+                            stack2.push(Binary_Operation(stack1.peek(), op1, op2));
+                            stack1.pop();//运算符出栈
+                        }
+                    }
+                }
+            }
+        }
+        return stack2.peek();
+    }
+    public double Unary_Operation(String op,double a){//一元运算
+        double ans=0.0;
+        switch (op) {
+            case "sin":
+                ans=Math.sin(a);
+                break;
+            case "cos":
+                ans=Math.cos(a);
+                break;
+            case "tan":
+                ans=Math.tan(a);
+                break;
+            case "lg":
+                ans=Math.log10(a);
+                break;
+            case "ln":
+                ans=Math.log(a);
+                break;
+        }
+        return ans;
+    }
+    public double Binary_Operation(String op,double a,double b){//二元运算
+        double ans=0.0;
+        switch (op) {
+            case "+":
+                ans=a+b;
+                break;
+            case "-":
+                ans=a-b;
+                break;
+            case "*":
+                ans=a*b;
+                break;
+            case "/":
+                ans=a/b;
+                break;
+            case "^":
+                ans=Math.pow(a, b);
+                break;
+            case "%":
+                int _a = (int) a;
+                int _b = (int) b;
+                ans=(double) _a - (_a / _b) * _b;
+                break;
+            default:
+                break;
+        }
+        return ans;
     }
 }
