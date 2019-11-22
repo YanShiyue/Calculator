@@ -19,14 +19,14 @@ public class conversionActivity extends AppCompatActivity {
         setContentView(R.layout.conversion_layout);
 
         //计算、换算的转换
-/*        Button conversionToCount=(Button) findViewById(R.id.bt_count);
+        Button conversionToCount=(Button) findViewById(R.id.bt_count);
         conversionToCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(conversionActivity.this,count_mainActivity.class);
+                Intent intent=new Intent(conversionActivity.this,count_mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
-        });*/
+        });
         Button toLen=(Button) findViewById(R.id.bt_length);
         toLen.setOnClickListener(new View.OnClickListener() {
             @Override

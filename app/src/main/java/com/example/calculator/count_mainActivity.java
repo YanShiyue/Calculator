@@ -89,11 +89,11 @@ public class count_mainActivity extends AppCompatActivity implements View.OnClic
         bt_eq.setOnClickListener(this);
 
         //计算、换算的转换(显示Intent)
-        Button countToConversion=(Button) findViewById(R.id.bt_more);
+        Button countToConversion=(Button) findViewById(R.id.bt_conversion);
         countToConversion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(count_mainActivity.this,conversionActivity.class);
+                Intent intent=new Intent(count_mainActivity.this,conversionActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });

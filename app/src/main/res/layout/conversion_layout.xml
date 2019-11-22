@@ -6,15 +6,33 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_weight="2">
         <Button
             android:id="@+id/bt_count"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="计算"/>
+            android:text="计算"
+            android:textSize="15sp"
+            android:textColor="#050505"
+            style="?android:attr/borderlessButtonStyle"
+            android:textStyle="bold"/>
+        <Button
+            android:id="@+id/bt_conversion"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="换算"
+            android:textSize="15sp"
+            android:textColor="#F3216A"
+            style="?android:attr/borderlessButtonStyle"
+            android:textStyle="bold"/>
     </LinearLayout>
+    <LinearLayout
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"/>
     <LinearLayout
         android:layout_height="0dp"
         android:layout_width="match_parent"
@@ -57,11 +75,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="日期" />
-        <Button
-            android:id="@+id/bt_area"
+        <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="面积"/>
+            android:layout_weight="1"/>
     </LinearLayout>
+    <LinearLayout
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="8"
+        android:orientation="horizontal"/>
 </LinearLayout>
